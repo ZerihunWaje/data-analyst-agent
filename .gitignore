@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+data/*.csv
+chroma_db/
+*.duckdb
+.env
