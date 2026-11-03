@@ -4,9 +4,9 @@
 Answer business questions in plain English on a real e-commerce database, using RAG to ground SQL generation. Show measurable accuracy improvement with RAG vs without.
 
 ## Steps
-1. Setup: Ollama + models, venv, packages, test LLM call  [ ]
-2. Data: load Olist CSVs into DuckDB, explore tables and joins  [ ]
-3. Knowledge base: write table docs, column meanings, metric definitions, 10–15 example question->SQL pairs  [ ]
+1. Setup: Ollama + models, venv, packages, test LLM call  [X]
+2. Data: load Olist CSVs into DuckDB, explore tables and joins  [X]
+3. Knowledge base: write table docs, column meanings, metric definitions, 10–15 example question->SQL pairs  [X]
 4. Retriever: embed knowledge base with nomic-embed-text, store in ChromaDB, test retrieval quality  [ ]
 5. SQL generation: prompt design, LLM writes SQL, run in DuckDB, handle errors (retry with error message)  [ ]
 6. Answer explanation: LLM summarizes result table into a business insight  [ ]
