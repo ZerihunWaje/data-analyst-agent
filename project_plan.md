@@ -7,7 +7,7 @@ Answer business questions in plain English on a real e-commerce database, using 
 1. Setup: Ollama + models, venv, packages, test LLM call  [X]
 2. Data: load Olist CSVs into DuckDB, explore tables and joins  [X]
 3. Knowledge base: write table docs, column meanings, metric definitions, 10–15 example question->SQL pairs  [X]
-4. Retriever: embed knowledge base with nomic-embed-text, store in ChromaDB, test retrieval quality  [ ]
+4. Retriever: embed knowledge base with nomic-embed-text, store in ChromaDB, test retrieval quality  [X]
 5. SQL generation: prompt design, LLM writes SQL, run in DuckDB, handle errors (retry with error message)  [ ]
 6. Answer explanation: LLM summarizes result table into a business insight  [ ]
 7. Evaluation: 20–30 test questions with expected answers; compare no-RAG vs RAG accuracy  [ ]
