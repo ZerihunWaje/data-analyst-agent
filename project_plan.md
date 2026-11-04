@@ -10,7 +10,7 @@ Answer business questions in plain English on a real e-commerce database, using 
 4. Retriever: embed knowledge base with nomic-embed-text, store in ChromaDB, test retrieval quality  [X]
 5. SQL generation: prompt design, LLM writes SQL, run in DuckDB, handle errors (retry with error message)  [X]
 6. Answer explanation: LLM summarizes result table into a business insight  [X]
-7. Evaluation: 20–30 test questions with expected answers; compare no-RAG vs RAG accuracy  [ ]
+7. Evaluation: 20–30 test questions with expected answers; compare no-RAG vs RAG accuracy  [X]
 8. Streamlit UI: question box, show retrieved context, SQL, result table, explanation  [ ]
 9. GitHub: clean repo, README with architecture diagram, results table, lessons learned  [ ]
 

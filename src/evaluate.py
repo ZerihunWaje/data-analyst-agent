@@ -1,6 +1,7 @@
 import datetime
 import math
 import re
+import sys
 from decimal import Decimal
 from pathlib import Path
 
@@ -11,18 +12,17 @@ from agent import ask
 from db import DB_PATH, get_schema
 
 QUESTIONS_FILE = Path("eval/questions.md")
-RESULTS_FILE = Path("eval/results.csv")
 
 
-def load_questions() -> list[dict]:
-    text = QUESTIONS_FILE.read_text(encoding="utf-8")
+def load_questions(path: Path = QUESTIONS_FILE) -> list[dict]:
+    text = path.read_text(encoding="utf-8")
     items = []
     for chunk in text.split("## Question:")[1:]:
         question = chunk.strip().splitlines()[0].strip()
         match = re.search(r"```sql\s*\n(.*?)```", chunk, re.DOTALL | re.IGNORECASE)
         items.append({"question": question, "gold_sql": match.group(1).strip()})
     if not items:
-        raise ValueError(f"No questions found in {QUESTIONS_FILE}")
+        raise ValueError(f"No questions found in {path}")
     return items
 
 
@@ -56,10 +56,10 @@ def results_match(pred: pd.DataFrame | None, gold: pd.DataFrame) -> bool:
     return True
 
 
-def main() -> None:
+def main(questions_file: Path, results_file: Path) -> None:
     con = duckdb.connect(DB_PATH, read_only=True)
     schema = get_schema(con)
-    questions = load_questions()
+    questions = load_questions(questions_file)
     rows = []
 
     for use_rag in [False, True]:
@@ -76,7 +76,7 @@ def main() -> None:
             print(f"[{label}] Q{i:02d} {'PASS' if correct else 'FAIL'}  {item['question']}")
 
     df = pd.DataFrame(rows)
-    df.to_csv(RESULTS_FILE, index=False)
+    df.to_csv(results_file, index=False)
     summary = df.groupby("use_rag").agg(
         accuracy=("correct", "mean"),
         avg_attempts=("attempts", "mean"),
@@ -87,4 +87,6 @@ def main() -> None:
 
 
 if __name__ == "__main__":
-    main()
+    name = sys.argv[1] if len(sys.argv) > 1 else "questions"
+    results = "eval/results.csv" if name == "questions" else f"eval/results_{name}.csv"
+    main(Path(f"eval/{name}.md"), Path(results))

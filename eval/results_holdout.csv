@@ -1,0 +1,52 @@
+use_rag,id,question,correct,attempts,error,sql
+False,1,How many orders have been delivered?,True,1,,"SELECT COUNT(order_id) AS delivered_orders
+FROM orders
+WHERE order_status = 'delivered';"
+False,2,What was the revenue in November 2017?,False,1,,"SELECT SUM(order_items.price * order_items.freight_value) AS total_revenue
+FROM order_items
+JOIN orders ON order_items.order_id = orders.order_id
+WHERE orders.order_purchase_timestamp BETWEEN '2017-11-01 00:00:00' AND '2017-11-30 23:59:59';"
+False,3,How many unique customers placed an order in 2018?,False,1,,"SELECT COUNT(DISTINCT customer_id) AS unique_customers
+FROM orders
+WHERE YEAR(order_purchase_timestamp) = 2018;"
+False,4,Which product category has the most products?,False,1,,"SELECT product_category_name
+FROM products
+GROUP BY product_category_name
+ORDER BY COUNT(*) DESC
+LIMIT 1;"
+False,5,What is the average delivery time in days for customers in Sao Paulo state (SP)?,False,3,"Binder Error: Referenced column ""day"" not found in FROM clause!
+Candidate bindings: ""order_approved_at"", ""order_purchase_timestamp"", ""order_estimated_delivery_date""
+
+LINE 1: SELECT AVG(DATEDIFF(day, orders.order_purchase_timestamp, orders.order_delivere...
+                            ^","SELECT AVG(DATEDIFF(day, orders.order_purchase_timestamp, orders.order_delivered_customer_date)) AS average_delivery_time
+FROM orders
+JOIN customers ON orders.customer_id = customers.customer_id
+WHERE customers.customer_state = 'SP';"
+True,1,How many orders have been delivered?,True,1,,"SELECT COUNT(DISTINCT order_id) AS delivered_orders
+FROM orders
+WHERE order_status = 'delivered';"
+True,2,What was the revenue in November 2017?,True,1,,"SELECT date_trunc('month', o.order_purchase_timestamp) AS month,
+       ROUND(SUM(i.price), 2) AS revenue
+FROM order_items i
+JOIN orders o ON i.order_id = o.order_id
+WHERE o.order_status NOT IN ('canceled', 'unavailable')
+  AND date_trunc('month', o.order_purchase_timestamp) = '2017-11-01'
+GROUP BY month;"
+True,3,How many unique customers placed an order in 2018?,True,2,,"SELECT COUNT(DISTINCT customer_unique_id) AS unique_customers
+FROM customers c
+JOIN orders o ON c.customer_id = o.customer_id
+WHERE year(o.order_purchase_timestamp) = 2018;"
+True,4,Which product category has the most products?,True,1,,"SELECT COALESCE(t.product_category_name_english, p.product_category_name) AS category,
+       COUNT(p.product_id) AS product_count
+FROM products p
+LEFT JOIN product_category_name_translation t
+       ON p.product_category_name = t.product_category_name
+GROUP BY category
+ORDER BY product_count DESC
+LIMIT 1;"
+True,5,What is the average delivery time in days for customers in Sao Paulo state (SP)?,True,1,,"SELECT ROUND(AVG(date_diff('day', o.order_purchase_timestamp, o.order_delivered_customer_date)), 1) AS avg_days
+FROM orders o
+JOIN customers c ON o.customer_id = c.customer_id
+WHERE o.order_status = 'delivered'
+  AND o.order_delivered_customer_date IS NOT NULL
+  AND c.customer_state = 'SP';"
