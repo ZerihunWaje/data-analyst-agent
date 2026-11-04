@@ -4,8 +4,11 @@ from pathlib import Path
 import duckdb
 
 from db import DB_PATH
+import sys
 
-text = Path("knowledge/examples/examples.md").read_text(encoding="utf-8")
+path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("knowledge/examples/examples.md")
+text = path.read_text(encoding="utf-8")
+
 sql_blocks = re.findall(r"```sql\s*\n(.*?)```", text, re.DOTALL | re.IGNORECASE)  # CHANGED
 
 if not sql_blocks:  # NEW
