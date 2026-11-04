@@ -82,12 +82,12 @@ def explain_result(question: str, sql: str, df) -> str:
     return response["message"]["content"].strip()
 
 
-def ask(question: str, con, schema: str, use_rag: bool = True) -> dict:
+def ask(question: str, con, schema: str, use_rag: bool = True, explain: bool = True) -> dict:
     sql = generate_sql(question, schema, use_rag)
     for attempt in range(1, MAX_RETRIES + 2):
         try:
             df = con.execute(sql).df()
-            explanation = explain_result(question, sql, df)
+            explanation = explain_result(question, sql, df) if explain else None
             return {"sql": sql, "result": df, "attempts": attempt,
                     "error": None, "explanation": explanation}
         except duckdb.Error as e:

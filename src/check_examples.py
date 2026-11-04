@@ -1,10 +1,10 @@
 import re
+import sys
 from pathlib import Path
 
 import duckdb
 
 from db import DB_PATH
-import sys
 
 path = Path(sys.argv[1]) if len(sys.argv) > 1 else Path("knowledge/examples/examples.md")
 text = path.read_text(encoding="utf-8")
