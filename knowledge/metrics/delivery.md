@@ -12,3 +12,8 @@ SELECT AVG(CASE WHEN order_delivered_customer_date > order_estimated_delivery_da
 FROM orders
 WHERE order_status = 'delivered'
   AND order_delivered_customer_date IS NOT NULL;
+
+- Average delay: average days late among LATE orders only:
+  AVG(date_diff('day', order_estimated_delivery_date, order_delivered_customer_date))
+  WHERE order_delivered_customer_date > order_estimated_delivery_date.
+  Different from late delivery rate (share of orders that are late).

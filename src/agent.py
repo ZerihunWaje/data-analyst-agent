@@ -15,7 +15,9 @@ Rules:
 - Use only tables and columns from the schema. Use exact column names.
 - Follow the business definitions in the context.
 - Return exactly one SQL query inside a ```sql code block. No explanation.
-- Only SELECT or WITH queries. Never modify data."""
+- Only SELECT or WITH queries. Never modify data.
+- - All money amounts are in Brazilian reais. Write them as R$ (e.g. R$ 7,341,182.41), never $."""
+
 
 EXPLAIN_PROMPT = """You explain SQL query results to a business user.
 Rules:
