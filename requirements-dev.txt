@@ -1,3 +1,6 @@
--r requirements.txt
-pytest
-ruff
+altair==6.2.2
+chromadb==1.5.9
+duckdb==1.5.6
+ollama==0.6.3
+pandas==2.3.3
+streamlit==1.65.0

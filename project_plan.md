@@ -11,8 +11,8 @@ Answer business questions in plain English on a real e-commerce database, using 
 5. SQL generation: prompt design, LLM writes SQL, run in DuckDB, handle errors (retry with error message)  [X]
 6. Answer explanation: LLM summarizes result table into a business insight  [X]
 7. Evaluation: 20–30 test questions with expected answers; compare no-RAG vs RAG accuracy  [X]
-8. Streamlit UI: question box, show retrieved context, SQL, result table, explanation  [ ]
-9. GitHub: clean repo, README with architecture diagram, results table, lessons learned  [ ]
+8. Streamlit UI: question box, show retrieved context, SQL, result table, explanation. [X]
+9. GitHub: clean repo, README with architecture diagram, results table, lessons learned.  [ ]
 
 ## Folder structure
 ```
@@ -27,3 +27,7 @@ data-analyst-agent/
 
 ## Progress log
 - 2026-11-02: project started, architecture chosen
+- 2026-11-04: Steps 5–8 done. Eval: RAG 96% vs 40% baseline (25 questions incl. 5 holdout).
+     Streamlit chat UI with charts, logo, RAG toggle.
+- NEXT: verify UI fixes + re-run eval, choose delay definition (A/B/C),
+     screenshots to docs/images, then Step 9 README.
